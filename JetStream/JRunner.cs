@@ -14,7 +14,7 @@ namespace NatsWriters
         {
             _dataInput = dataInput;
             _writer = writer;
-            _timer = new PeriodicTimer(TimeSpan.FromMinutes(opts.Value.MinutesBack));
+            _timer = new PeriodicTimer(TimeSpan.FromMinutes(opts.Value.SecondsBack));
             _output = output;
         }
 

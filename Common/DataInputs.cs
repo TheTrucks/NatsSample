@@ -26,7 +26,7 @@ namespace NatsWriters
     {
         public string ConnString { get; set; }
         public string TableName { get; set; }
-        public int MinutesBack { get; set; }
+        public int SecondsBack { get; set; }
     }
     internal sealed class DbDataInput : IAsyncNatsDataInput<TestDataStruct>
     {
@@ -57,7 +57,7 @@ namespace NatsWriters
             await CheckConnection();
             using (var cmd = new NpgsqlCommand($"select * from {_opts.TableName} where datetime > $1", _conn))
             {
-                cmd.Parameters.Add(new() { Value = DateTime.UtcNow.AddMinutes(-_opts.MinutesBack) });
+                cmd.Parameters.Add(new() { Value = DateTime.UtcNow.AddSeconds(-_opts.SecondsBack) });
                 using (var rdr = await cmd.ExecuteReaderAsync())
                 {
                     await _output.Info("Psql queried");
